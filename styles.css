@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-color: #f0a13a;
+  --background-color: #ffffff;
+  --header-background-color: #080808;
+  --text-light: #767268;
+  --white: #ffffff;
+  --max-width: 1200px;
+  --header-font: "Roboto Condensed", sans-serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: flex;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+ul {
+  list-style: none;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background-color);
+}
+
+header {
+  background-color: var(--header-background-color);
+}
+
+nav {
+  position: fixed;
+  isolation: isolate;
+  width: 100%;
+  z-index: 9;
+}
+
+.nav__header {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--header-background-color)
+}
+
+.nav__logo a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: var(--header-font);
+  color: var(--white);
+  line-height: 1.5rem;
+}
+
+.nav__menu__btn {
+  font-size: 1.5rem;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.nav__links {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: var(--primary-color);
+  transition: transform 0.5s;
+  z-index: -1;
+}
+
+.nav__links.open {
+  transform: translateY(100%);
+}
+
+.nav__links a {
+  font-size: 1rem;
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.nav__links a:hover {
+  color: var(--background-color);
+}
+
+.nav__btns {
+  display: none;
+}
+
+.section__container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 5rem 1rem;
+}
+
+.section__header {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: var(--header-font);
+  line-height: 2.75rem;
+  color: var(--white);
+}
+
+.section__description {
+  font-size: 1rem;
+  color: var(--text-light);
+  line-height: 1.75rem;
+}
+
+.header__container {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.header__container::before {
+  position: absolute;
+  content: "KING";
+  top: 0;
+  right: 0;
+  color: var(--white);
+  font-size: 25rem;
+  font-weight: 600;
+  font-family: var(--header-font);
+  line-height: 25rem;
+  background-image: linear-gradient(
+    to top,
+    var(--header-background-color),
+    var(--white)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.header__container::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background-image: linear-gradient(
+    to top,
+    var(--header-background-color) 25%,
+    #ffffff00
+  );
+  z-index: 1;
+}
+
+.header__container h1 {
+  max-width: 475px;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: var(--header-font);
+  line-height: 3.75rem;
+  color: var(--white);
+}
+
+.header__container .section__description {
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+
+.header__container a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.header__container a span {
+  color: var(--white);
+}
+
+
