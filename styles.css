@@ -3,6 +3,7 @@
 :root {
   --primary-color: #f0a13a;
   --background-color: #0d0d0d;
+  --nav-height: 64px;
   --header-background-color: #0d0d0d; 
   --shadow-color: rgba(0,0,0,0.55);
   --surface-00: rgba(255,255,255,0.02);
@@ -46,6 +47,10 @@ body {
   background-color: var(--background-color);
 }
 
+/* Reserve space for the fixed nav and make in-page anchors land below it */
+html { scroll-padding-top: var(--nav-height); }
+body { padding-top: var(--nav-height); }
+
 header {
   background-color: var(--header-background-color);
 }
@@ -55,6 +60,7 @@ nav {
   isolation: isolate;
   width: 100%;
   z-index: 9;
+  height: var(--nav-height);
 }
 
 .nav__header {
@@ -116,8 +122,8 @@ nav {
 
 .section__container {
   max-width: var(--max-width);
-  margin: auto;
-  padding: 5rem 1rem;
+  margin: 0 auto;
+  padding: 3.25rem 1rem;
 }
 
 .section__header {
@@ -139,7 +145,155 @@ nav {
   isolation: isolate;
   overflow: hidden;
   padding-bottom: 0;
+  padding-top: 1rem;
 }
+
+
+body > section:not(.csv-uploader) {
+  max-width: var(--max-width);
+  margin: 0.9rem auto;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background-image: linear-gradient(to bottom, var(--surface-00), var(--surface-01));
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 6px 18px var(--shadow-color);
+  color: var(--white);
+}
+
+body > section:not(.csv-uploader) h2 {
+  color: var(--primary-color);
+  font-family: var(--header-font);
+  margin-bottom: 0.75rem;
+}
+
+body > section:not(.csv-uploader) p,
+body > section:not(.csv-uploader) li {
+  color: var(--text-light);
+}
+
+body > section:not(.csv-uploader) pre {
+  background: var(--surface-01);
+  color: var(--white);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: auto;
+  font-family: monospace;
+}
+
+/* Specific tweaks for informational LCFS sections (principles, examples) */
+body > section:not(.csv-uploader).info, body > section:not(.csv-uploader) {
+  position: relative;
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+body > section:not(.csv-uploader):hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+}
+
+body > section:not(.csv-uploader) h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Decorative left accent bar */
+body > section:not(.csv-uploader)::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary-color), rgba(240,161,58,0.6));
+  border-radius: 4px;
+  opacity: 0.95;
+}
+
+body > section:not(.csv-uploader) ol {
+  margin: 0.75rem 0 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+body > section:not(.csv-uploader) ol li {
+  margin: 0.55rem 0;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+body > section:not(.csv-uploader) p {
+  margin-top: 0.75rem;
+  color: var(--text-light);
+}
+
+/* Ensure bold text remains highly legible */
+body > section:not(.csv-uploader) b,
+body > section:not(.csv-uploader) strong {
+  color: var(--white);
+}
+
+/* Formula / unordered list styles for the info panels */
+body > section:not(.csv-uploader) ul {
+  margin: 0.75rem 0 0.25rem 0;
+  padding-left: 1.25rem;
+}
+
+body > section:not(.csv-uploader) ul li {
+  margin: 0.45rem 0;
+  line-height: 1.5;
+  color: var(--text-light);
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+/* make the labels (the bold parts) stand out */
+body > section:not(.csv-uploader) ul li b {
+  color: var(--white);
+  min-width: 10.5rem; /* keep formulas aligned visually */
+  display: inline-block;
+}
+
+/* colored list markers */
+body > section:not(.csv-uploader) ul li::marker {
+  color: var(--primary-color);
+}
+
+
+.result-box {
+  padding: 0.75rem;
+  background: linear-gradient(180deg, var(--surface-01), var(--surface-02));
+  border: 1px solid var(--surface-border);
+  color: var(--white);
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Polishing for example blocks and metric cards */
+section .result-box {
+  background: linear-gradient(180deg, rgba(0,0,0,0.32), rgba(255,255,255,0.02));
+  border-radius: 0.6rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+section pre {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  color: var(--white);
+  font-size: 0.95rem;
+  overflow: auto;
+}
+
+/* tighten spacing between example text and metrics */
+section p + pre { margin-top: 0.5rem; }
+section pre + p { margin-top: 0.5rem; }
+
+/* slightly larger contrast for the example heading */
+section h2 { text-shadow: 0 1px 0 rgba(0,0,0,0.4); }
 
 
 .section__container {
@@ -351,6 +505,88 @@ nav {
   cursor: pointer;
   margin-right: 0.75rem;
   font-size: 1rem;
+}
+
+
+input.upload {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border: 1px dashed var(--surface-border);
+  color: var(--text-light);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input.upload:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  color: var(--white);
+}
+
+
+#output {
+  max-width: var(--max-width);
+  margin: 1rem auto 0 auto;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, var(--surface-01), var(--surface-02));
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 6px 18px var(--shadow-color);
+  color: var(--white);
+}
+
+/* Table styling for results inside #output */
+#output table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-family: monospace;
+  table-layout: auto;
+}
+
+#output thead th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  background: linear-gradient(90deg, rgba(240,161,58,0.12), rgba(240,161,58,0.06));
+  color: var(--primary-color);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+#output tbody td {
+  padding: 0.45rem 0.75rem;
+  color: var(--white);
+  border-top: 1px solid rgba(255,255,255,0.02);
+}
+
+#output tbody tr:nth-child(even) {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+
+/* horizontal scroll on very small screens */
+#output .table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* make numbers monospaced and aligned */
+#output td:nth-child(n+2) { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* small heading inside output */
+#output h3 { margin: 0; color: var(--primary-color); font-family: var(--header-font); }
+
+
+section pre {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
 }
 
 .btn {

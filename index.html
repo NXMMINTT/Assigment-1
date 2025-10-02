@@ -17,299 +17,111 @@
   <body>
     <header>
       <nav>
-        <!DOCTYPE html>
-        <html lang="th">
-        <head>
-          <meta charset="UTF-8">
-          <title>Non-preemptive Last Come First Serve (LCFS)</title>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-          <style>
-            body {
-              font-family: "Segoe UI", Tahoma, sans-serif;
-              background-color: #121212;
-              color: #FFD700;
-              margin: 0;
-              padding: 0;
-              line-height: 1.6;
-            }
-            header {
-              background: #FFD700;
-              color: #121212;
-              padding: 20px;
-              text-align: center;
-              font-size: 24px;
-              font-weight: bold;
-            }
-            section {
-              padding: 20px;
-              margin: 10px auto;
-              max-width: 1000px;
-              background: #1E1E1E;
-              border-radius: 12px;
-              box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-            }
-            h2 {
-              color: #FFD700;
-              border-bottom: 2px solid #FFD700;
-              padding-bottom: 5px;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin: 15px 0;
-            }
-            table, th, td {
-              border: 1px solid #FFD700;
-              text-align: center;
-              padding: 8px;
-            }
-            th {
-              background-color: #FFD700;
-              color: #121212;
-            }
-            .upload {
-              margin: 20px 0;
-              padding: 10px;
-              background: #FFD700;
-              color: #121212;
-              font-weight: bold;
-              border: none;
-              border-radius: 6px;
-              cursor: pointer;
-            }
-            .upload:hover {
-              background: #FFC300;
-            }
-            .result-box {
-              padding: 15px;
-              margin-top: 15px;
-              border: 1px dashed #FFD700;
-              border-radius: 8px;
-              background: #2a2a2a;
-            }
-            footer {
-              text-align: center;
-              padding: 10px;
-              margin-top: 30px;
-              background: #FFD700;
-              color: #121212;
-            }
-          </style>
-        </head>
-        <body>
-          <header>
-            Non-preemptive Last Come First Serve (LCFS) Scheduling
-          </header>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#">NON-PREEMPTIVE</a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="#home">HOME</a></li>
+          <li><a href="#simulation">SIMULATION</a></li>
+          <li><a href="#csv-uploader">CSV UPLOADER</a></li>
+          <li><a href="#results">RESULTS TABLE</a></li>
+        </ul>
+        <div class="nav__btns">
+          <button class="btn"><i class="ri-search-line"></i></button>
+        </div>
+      </nav>
 
-          <section>
-            <h2>📌 ความหมายของ Non-preemptive LCFS</h2>
-            <p>
-              <b>Non-preemptive LCFS (Last-Come-First-Serve)</b> คือวิธีจัดตารางเวลาการทำงานของ CPU โดยเลือก <b>โปรเซสที่มาล่าสุด (arrival time มากที่สุด)</b>
-              มารันก่อน แต่จะให้โปรเซสที่กำลังทำงานอยู่เสร็จสิ้นก่อน (non-preemptive) โดยไม่ถูกขัดจังหวะ
-            </p>
-            <p>ตัวอย่างเปรียบเทียบง่าย ๆ เหมือนกับ <b>การวางจานซ้อนกัน</b> — จานที่วางล่าสุดอยู่บนสุด และจะถูกหยิบไปใช้ก่อน</p>
-          </section>
+      <div class="section__container header__container">
+        <h1>NON-PREEMPTIVE SCHEDULING</h1>
+        <p class="section__description">
+          Once a process gets the CPU, it runs until completion — no interruption.
+        </p>
+        <div class="header__link">
+          <a href="#">
+            <span><i class="ri-arrow-right-long-line"></i></span>
+            Learn More
+          </a>
+        </div>
+        <img src="assets/header.png" alt="header" />
+      </div>
+    </header>
 
-          <section>
-            <h2>⚙️ หลักการทำงาน</h2>
-            <ol>
-              <li>เริ่มจากเวลาศูนย์และรอให้มีโปรเซสมาถึง</li>
-              <li>ถ้า CPU ว่าง จะเลือกโปรเซสที่มาล่าสุดในคิว</li>
-              <li>เมื่อโปรเซสเริ่มทำงานแล้ว จะทำจนจบ (ไม่ถูกขัดจังหวะ)</li>
-              <li>ทำซ้ำจนกว่าทุกโปรเซสจะเสร็จสิ้น</li>
-            </ol>
-            <p><b>กติกา Tie-break:</b> ถ้า Arrival Time เท่ากัน จะเลือกโปรเซสที่มี <b>Burst Time น้อยที่สุด</b></p>
-          </section>
 
-          <section>
-            <h2>🧮 สูตรการคำนวณ</h2>
-            <ul>
-                <li><b>Turnaround Time (TAT)</b> = Finish − Arrival</li>
-                <li><b>Waiting Time (WT)</b> = TAT − Burst = Start − Arrival</li>
-                <li><b>Response Time (RT)</b> = Start − Arrival</li>
-                <li><b>Avg TAT</b> = ΣTAT ÷ n</li>
-                <li><b>Avg WT</b> = ΣWT ÷ n</li>
-                <li><b>Avg RT</b> = ΣRT ÷ n</li>
-                <li><b>CPU Utilization</b> = (ΣBurst ÷ Makespan) × 100%</li>
-                <li><b>Throughput</b> = จำนวน process ÷ Makespan</li>
-            </ul>
-          </section>
+    <section>
+      <h2>MEANING OF NON-PREEMPTIVE LCFS</h2>
+        <p>
+          <b>Non-preemptive LCFS (Last-Come-First-Serve)</b> คือวิธีจัดตารางเวลาการทำงานของ CPU โดยเลือก <b>โปรเซสที่มาล่าสุด (arrival time มากที่สุด)</b>
+             มารันก่อน แต่จะให้โปรเซสที่กำลังทำงานอยู่เสร็จสิ้นก่อน (non-preemptive) โดยไม่ถูกขัดจังหวะ </p>
+        <p>ตัวอย่างเปรียบเทียบง่าย ๆ เหมือนกับ <b>การวางจานซ้อนกัน</b> — จานที่วางล่าสุดอยู่บนสุด และจะถูกหยิบไปใช้ก่อน</p>
+    </section>
 
-          <section>
-            <h2>📂 อัปโหลดไฟล์เพื่อคำนวณ</h2>
-            <p>รองรับไฟล์ <b>.csv</b> และ <b>.xlsx</b> โดยต้องมีคอลัมน์: <b>Process, Arrival, Burst</b> (จะเรียงลำดับต่างกันก็ได้)</p>
-            <input type="file" id="fileInput" class="upload" />
-            <div id="output"></div>
-          </section>
+      <section>
+    <h2>⚙️ หลักการทำงาน</h2>
+    <ol>
+      <li>เริ่มจากเวลาศูนย์และรอให้มีโปรเซสมาถึง</li>
+      <li>ถ้า CPU ว่าง จะเลือกโปรเซสที่มาล่าสุดในคิว</li>
+      <li>เมื่อโปรเซสเริ่มทำงานแล้ว จะทำจนจบ (ไม่ถูกขัดจังหวะ)</li>
+      <li>ทำซ้ำจนกว่าทุกโปรเซสจะเสร็จสิ้น</li>
+    </ol>
+    <p><b>กติกา Tie-break:</b> ถ้า Arrival Time เท่ากัน จะเลือกโปรเซสที่มี <b>Burst Time น้อยที่สุด</b></p>
+  </section>
 
-          <section>
-            <h2>🔎 ตัวอย่างการทำงาน</h2>
-            <p>เช่น โปรเซส 3 ตัว</p>
-            <pre>
-        P1: Arrival=0, Burst=4
-        P2: Arrival=1, Burst=3
-        P3: Arrival=2, Burst=1
-            </pre>
-            <p>การรัน: P1 (0–4) → P3 (4–5) → P2 (5–8)</p>
-            <div class="result-box">
-              Avg TAT = 4.67<br>
-              Avg WT  = 2.00<br>
-              Avg RT  = 2.00<br>
-              CPU Utilization = 100%<br>
-              Throughput = 0.375 process/unit time
-            </div>
-          </section>
 
-          <footer>
-            🚀 Non-preemptive LCFS Scheduling Simulator © 2025
-          </footer>
+    <section>
+    <h2>🧮 สูตรการคำนวณ</h2>
+    <ul>
+        <li><b>Turnaround Time (TAT)</b> = Finish − Arrival</li>
+        <li><b>Waiting Time (WT)</b> = TAT − Burst = Start − Arrival</li>
+        <li><b>Response Time (RT)</b> = Start − Arrival</li>
+        <li><b>Avg TAT</b> = ΣTAT ÷ n</li>
+        <li><b>Avg WT</b> = ΣWT ÷ n</li>
+        <li><b>Avg RT</b> = ΣRT ÷ n</li>
+        <li><b>CPU Utilization</b> = (ΣBurst ÷ Makespan) × 100%</li>
+        <li><b>Throughput</b> = จำนวน process ÷ Makespan</li>
+    </ul>
+  </section>
 
-          <script>
-            document.getElementById("fileInput").addEventListener("change", handleFile, false);
 
-            function handleFile(e) {
-              const file = e.target.files[0];
-              const reader = new FileReader();
-              const ext = file.name.split(".").pop().toLowerCase();
+  <section>
+    <h2>📂 อัปโหลดไฟล์เพื่อคำนวณ</h2>
+    <p>รองรับไฟล์ <b>.csv</b> และ <b>.xlsx</b> โดยต้องมีคอลัมน์: <b>Process, Arrival, Burst</b> (จะเรียงลำดับต่างกันก็ได้)</p>
+    <input type="file" id="fileInput" class="upload" />
+    <div id="output"></div>
+  </section>
 
-              if (ext === "csv") {
-                reader.onload = (evt) => {
-                  const text = evt.target.result;
-                  const rows = text.split("\n").map(r => r.trim()).filter(r => r).map(r => r.split(",").map(c => c.trim()));
-                  if (rows.length > 0) {
-                    processData(rows);
-                  }
-                };
-                reader.readAsText(file);
-              } else if (ext === "xlsx") {
-                reader.onload = (evt) => {
-                  const data = new Uint8Array(evt.target.result);
-                  const workbook = XLSX.read(data, { type: "array" });
-                  const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                  const json = XLSX.utils.sheet_to_json(firstSheet, { header: 1, raw: false }); 
-                  processData(json);
-                };
-                reader.readAsArrayBuffer(file);
-              } else {
-                alert("รองรับเฉพาะไฟล์ .csv หรือ .xlsx");
-              }
-            }
+  <section>
+    <h2>🔎 ตัวอย่างการทำงาน</h2>
+    <p>เช่น โปรเซส 3 ตัว</p>
+    <pre>
+P1: Arrival=0, Burst=4
+P2: Arrival=1, Burst=3
+P3: Arrival=2, Burst=1
+    </pre>
+    <p>การรัน: P1 (0–4) → P3 (4–5) → P2 (5–8)</p>
+    <div class="result-box">
+      Avg TAT = 4.67<br>
+      Avg WT  = 2.00<br>
+      Avg RT  = 2.00<br>
+      CPU Utilization = 100%<br>
+      Throughput = 0.375 process/unit time
+    </div>
+  </section>
 
-            function processData(data) {
-              if (data.length === 0) {
-                document.getElementById("output").innerHTML = "<p style='color:red;'>ไม่พบข้อมูลในไฟล์</p>";
-                return;
-              }
-      
-              const headers = data[0].map(h => String(h).trim());
-              const processIndex = headers.findIndex(h => h.toLowerCase().includes("process"));
-              const arrivalIndex = headers.findIndex(h => h.toLowerCase().includes("arrival"));
-              const burstIndex = headers.findIndex(h => h.toLowerCase().includes("burst"));
-      
-              if (processIndex === -1 || arrivalIndex === -1 || burstIndex === -1) {
-                document.getElementById("output").innerHTML = "<p style='color:red;'>ต้องมีคอลัมน์ชื่อ 'Process', 'Arrival', และ 'Burst' ครบถ้วน</p>";
-                return;
-              }
+   
 
-              // โคลนข้อมูลเพื่อไม่ให้กระทบกับข้อมูลต้นฉบับและง่ายต่อการคำนวณ
-              let processes = data.slice(1)
-                .filter(r => r.length > Math.max(processIndex, arrivalIndex, burstIndex))
-                .map(r => ({
-                  name: String(r[processIndex]).trim(),
-                  arrival: parseInt(r[arrivalIndex]),
-                  burst: parseInt(r[burstIndex]),
-                  done: false
-                }))
-                .filter(p => !isNaN(p.arrival) && !isNaN(p.burst) && p.burst > 0);
 
-              if (processes.length === 0) {
-                document.getElementById("output").innerHTML = "<p style='color:red;'>ไม่พบโปรเซสที่ถูกต้องหลังจากการกรอง</p>";
-                return;
-              }
 
-              let time = 0;
-              let completed = [];
-              let totalBurst = processes.reduce((a,p)=>a+p.burst,0);
-
-              while (completed.length < processes.length) {
-        
-                // 1. หาโปรเซสที่ "มาถึงแล้ว" ณ เวลาปัจจุบัน
-                let available = processes.filter(p => !p.done && p.arrival <= time);
-
-                if (available.length === 0) {
-                    // **จัดการ Idle Time (เวลาว่าง)**
-                    let nextArrivalProcesses = processes.filter(p => !p.done);
-                    if (nextArrivalProcesses.length > 0) {
-                        // ข้ามเวลาไปที่ arrival time ของโปรเซสที่มาถึงถัดไปที่เร็วที่สุด
-                        let nextArrival = Math.min(...nextArrivalProcesses.map(p => p.arrival));
-                        if(nextArrival > time) {
-                            time = nextArrival;
-                            continue; // กลับไปเช็ค available process ใหม่
-                        }
-                    } else {
-                        break; // ไม่มีโปรเซสเหลือแล้ว
-                    }
-            
-                    // Re-check available processes at the new time (ถ้า time ถูกอัปเดต)
-                    available = processes.filter(p => !p.done && p.arrival <= time);
-                }
-        
-                // 2. **LCFS Selection: เรียงลำดับและเลือกโปรเซส**
-                available.sort((a, b) => {
-                    // 1. Primary: LCFS (Arrival Time มากไปน้อย - มาล่าสุดก่อน)
-                    if (a.arrival !== b.arrival) {
-                        return b.arrival - a.arrival; 
-                    }
-            
-                    // 2. Secondary (Tie-breaker): Burst Time น้อยไปมาก
-                    return b.name.localeCompare(a.name);
-            
-                    // 3. Tertiary (Final Tie-breaker): ชื่อ Process 
-                    return a.name.localeCompare(b.name);
-                });
-
-                let chosen = available[0]; // เลือกโปรเซสแรกสุด (มาล่าสุด/Burst น้อยสุด)
-
-                // 3. **Non-preemptive Execution**
-                chosen.start = time; 
-                chosen.finish = time + chosen.burst;
-                chosen.tat = chosen.finish - chosen.arrival;
-                chosen.wait = chosen.start - chosen.arrival;
-                chosen.rt = chosen.wait;
-                chosen.done = true;
-                completed.push(chosen);
-                time = chosen.finish; // อัปเดตเวลาปัจจุบัน
-              }
-
-              // การคำนวณค่าเฉลี่ย
-              let avgTAT = completed.reduce((a,p)=>a+p.tat,0)/completed.length;
-              let avgWT  = completed.reduce((a,p)=>a+p.wait,0)/completed.length;
-              let avgRT  = completed.reduce((a,p)=>a+p.rt,0)/completed.length;
-              let makespan = completed.length > 0 ? Math.max(...completed.map(p=>p.finish)) : 0;
-      
-              // การคำนวณ Utilization และ Throughput
-              let cpuUtil = (makespan > 0) ? (totalBurst/makespan*100).toFixed(2) : 0.00;
-              let throughput = (makespan > 0) ? (completed.length/makespan).toFixed(3) : 0.000;
-
-              // การสร้างตารางผลลัพธ์
-              let html = "<h3>📊 ผลลัพธ์</h3><table><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Start</th><th>Finish</th><th>TAT</th><th>WT</th><th>RT</th></tr>";
-              // เรียงตามเวลาเริ่มต้นเพื่อแสดง Gantt Chart แบบตาราง
-              completed.sort((a,b)=>a.start-b.start).forEach(p=>{
-                html += `<tr><td>${p.name}</td><td>${p.arrival}</td><td>${p.burst}</td><td>${p.start}</td><td>${p.finish}</td><td>${p.tat}</td><td>${p.wait}</td><td>${p.rt}</td></tr>`;
-              });
-              html += "</table>";
-
-              // การแสดงค่าเฉลี่ย
-              html += `<div class='result-box'>
-                Avg TAT = ${avgTAT.toFixed(2)}<br>
-                Avg WT = ${avgWT.toFixed(2)}<br>
-                Avg RT = ${avgRT.toFixed(2)}<br>
-                CPU Utilization = ${cpuUtil}%<br>
-                Throughput = ${throughput} process/unit time
-              </div>`;
-
-              document.getElementById("output").innerHTML = html;
-            }
-          </script>
-        </body>
-        </html>
+    
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
