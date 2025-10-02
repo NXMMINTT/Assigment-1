@@ -2,7 +2,7 @@
 
 :root {
   --primary-color: #f0a13a;
-  --background-color: #ffffff;
+  --background-color: #0d0d0d;
   --header-background-color: #080808;
   --text-light: #767268;
   --white: #ffffff;
@@ -57,7 +57,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--header-background-color)
+  background-color: var(--primary-color);
 }
 
 .nav__logo a {
@@ -137,7 +137,7 @@ nav {
 
 .header__container::before {
   position: absolute;
-  content: "KING";
+  content: "PREEMPTIVE";
   top: 0;
   right: 0;
   color: var(--white);
@@ -199,3 +199,199 @@ nav {
 }
 
 
+@media (width > 540px) {
+  .shop__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .banner__container img {
+    opacity: 1;
+  }
+
+  .footer__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width > 768px) {
+  nav {
+    position: static;
+    padding: 2rem 1rem;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav__header {
+    flex: 1;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .nav__logo a {
+    color: var(--primary-color);
+  }
+
+  .nav__menu__btn {
+    display: none;
+  }
+
+  .nav__links {
+    position: static;
+    width: fit-content;
+    padding: 0;
+    flex-direction: row;
+    background-color: transparent;
+    transform: none !important;
+  }
+
+  .nav__links a {
+    color: var(--text-light);
+  }
+
+  .nav__links a:hover {
+    color: var(--white);
+  }
+
+  .nav__btns {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .nav__btns .btn {
+    padding: 4px 10px;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    background-color: transparent;
+    border-radius: 100%;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .nav__btns .btn:hover {
+    color: var(--primary-color);
+  }
+
+  .header__container {
+    padding-top: 2rem;
+  }
+
+  .header__container::after {
+    height: 50%;
+  }
+
+  .shop__container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about__container {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .choose__header {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .choose__header .section__header {
+    max-width: 350px;
+    margin-inline-start: auto;
+    padding-right: 1.75rem;
+    text-align: right;
+    border-right: 1px solid var(--text-light);
+  }
+
+  .choose__header p {
+    text-align: left;
+  }
+
+  .banner__container p span {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .banner__container p span::before,
+  .banner__container p span::after {
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 5rem;
+    background-color: var(--text-light);
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+  }
+
+  .banner__container p:nth-child(1) span::after {
+    width: 4rem;
+    left: calc(6rem - 1px);
+    transform: translateY(-50%) rotate(45deg);
+    transform-origin: left;
+  }
+
+  .banner__container p:nth-child(3) span::after {
+    width: 4rem;
+    left: calc(6rem - 1px);
+    transform: translateY(-50%) rotate(-45deg);
+    transform-origin: left;
+  }
+
+  .banner__container p:nth-child(4) span::before,
+  .banner__container p:nth-child(4) span::after,
+  .banner__container p:nth-child(5) span::before,
+  .banner__container p:nth-child(5) span::after,
+  .banner__container p:nth-child(6) span::before,
+  .banner__container p:nth-child(6) span::after {
+    right: 1rem;
+    left: unset;
+  }
+
+  .banner__container p:nth-child(4) span::after {
+    width: 4rem;
+    right: calc(6rem - 1px);
+    transform: translateY(-50%) rotate(-45deg);
+    transform-origin: right;
+  }
+
+  .banner__container p:nth-child(6) span::after {
+    width: 4rem;
+    right: calc(6rem - 1px);
+    transform: translateY(-50%) rotate(45deg);
+    transform-origin: right;
+  }
+
+  .footer__container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .footer__col:nth-child(1) {
+    max-width: 350px;
+    grid-column: 1/3;
+  }
+
+  .footer__bar {
+    flex-direction: row;
+  }
+}
+
+@media (width > 1024px) {
+  .nav__links {
+    gap: 3rem;
+  }
+
+  .shop__container {
+    gap: 1.5rem;
+  }
+
+  .shop__card {
+    padding: 2rem;
+  }
+}
