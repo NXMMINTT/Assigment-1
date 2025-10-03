@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="member.html">
+    <title>Non-preemptive Last Come First Serve</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#">NON-PREEMPTIVE</a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="#home">HOME</a></li>
+          <li><a href="simulation.html">SIMULATION</a></li>
+          <li><a href="csv-uploader.html">CSV UPLOADER</a></li>
+          <li><a href="#results">RESULTS TABLE</a></li>
+          <li><a href="member.html">MEMBER</a></li> 
+        </ul>
+        <div class="nav__btns">
+          <button class="btn"><i class="ri-search-line"></i></button>
+        </div>
+      </nav>
+
+
+
+
+
+  <section class="formula" id="csv-uploader">
+    <h2> อัปโหลดไฟล์เพื่อคำนวณ</h2>
+    <p>รองรับไฟล์ <b>.csv</b> และ <b>.xlsx</b> โดยต้องมีคอลัมน์: <b>Process, Arrival, Burst</b> (จะเรียงลำดับต่างกันก็ได้)</p>
+    <input type="file" id="fileInput" class="upload" />
+    <div id="output"></div>
+  </section>
+
+  <section class="formula"  id="results">
+    <h2> ตัวอย่างการทำงาน</h2>
+    <p>เช่น โปรเซส 3 ตัว</p>
+    <pre>
+P1: Arrival=0, Burst=4
+P2: Arrival=1, Burst=3
+P3: Arrival=2, Burst=1
+    </pre>
+    <p>การรัน: P1 (0–4) → P3 (4–5) → P2 (5–8)</p>
+    <div class="result-box">
+      Avg TAT = 4.67<br>
+      Avg WT  = 2.00<br>
+      Avg RT  = 2.00<br>
+      CPU Utilization = 100%<br>
+      Throughput = 0.375 process/unit time
+    </div>
+  </section>
+
+
+
+
+
+
+   
+
+
+
+    
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
