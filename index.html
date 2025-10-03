@@ -53,39 +53,78 @@
     </header>
 
 
-    <section id="simulation">
-      <h2>MEANING OF NON-PREEMPTIVE LCFS</h2>
-        <p>
-          <b>Non-preemptive LCFS (Last-Come-First-Serve)</b> คือวิธีจัดตารางเวลาการทำงานของ CPU โดยเลือก <b>โปรเซสที่มาล่าสุด (arrival time มากที่สุด)</b>
-             มารันก่อน แต่จะให้โปรเซสที่กำลังทำงานอยู่เสร็จสิ้นก่อน (non-preemptive) โดยไม่ถูกขัดจังหวะ </p>
-        <p>ตัวอย่างเปรียบเทียบง่าย ๆ เหมือนกับ <b>การวางจานซ้อนกัน</b> — จานที่วางล่าสุดอยู่บนสุด และจะถูกหยิบไปใช้ก่อน</p>
+    <section class="about" id="about">
+      <div class="section__container about__container">
+        <div class="about__image">
+          <img src="assets/about.png" alt="about" />
+        </div>
+        <div class="about__content">
+          <h2 class="section__header">
+            MEANING OF NON-PREEMPTIVE LCFS
+          </h2>
+          <p class="section__description">
+            Non-preemptive LCFS (Last-Come-First-Serve)
+          </p>
+          <p class="section__description">
+            คือวิธีจัดตารางเวลาการทำงานของ CPU โดยเลือก โปรเซสที่มาล่าสุด (arrival time มากที่สุด)
+            มารันก่อน แต่จะให้โปรเซสที่กำลังทำงานอยู่เสร็จสิ้นก่อน (non-preemptive) โดยไม่ถูกขัดจังหวะ
+            ตัวอย่างเปรียบเทียบง่าย ๆ เหมือนกับ การวางจานซ้อนกัน จานที่วางล่าสุดอยู่บนสุด และจะถูกหยิบไปใช้ก่อน
+          </p>
+
+          <div class="about__stats">
+            <div>
+              <h4>50</h4>
+              <p>PROCESS</p>
+            </div>
+            <div>
+              <h4>120</h4>
+              <p>MARRIVAL</p>
+            </div>
+            <div>
+              <h4>75</h4>
+              <p>BURST</p>
+            </div>
+            <div>
+              <h4>3.5K</h4>
+              <p>WAIT</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-      <section>
-    <h2> หลักการทำงาน</h2>
-    <ol>
-      <li>เริ่มจากเวลาศูนย์และรอให้มีโปรเซสมาถึง</li>
-      <li>ถ้า CPU ว่าง จะเลือกโปรเซสที่มาล่าสุดในคิว</li>
-      <li>เมื่อโปรเซสเริ่มทำงานแล้ว จะทำจนจบ (ไม่ถูกขัดจังหวะ)</li>
-      <li>ทำซ้ำจนกว่าทุกโปรเซสจะเสร็จสิ้น</li>
-    </ol>
-    <p><b>กติกา Tie-break:</b> ถ้า Arrival Time เท่ากัน จะเลือกโปรเซสที่มี <b>Burst Time น้อยที่สุด</b></p>
-  </section>
 
 
-    <section>
-    <h2> สูตรการคำนวณ</h2>
-    <ul>
-        <li><b>Turnaround Time (TAT)</b> = Finish − Arrival</li>
-        <li><b>Waiting Time (WT)</b> = TAT − Burst = Start − Arrival</li>
-        <li><b>Response Time (RT)</b> = Start − Arrival</li>
-        <li><b>Avg TAT</b> = ΣTAT ÷ n</li>
-        <li><b>Avg WT</b> = ΣWT ÷ n</li>
-        <li><b>Avg RT</b> = ΣRT ÷ n</li>
-        <li><b>CPU Utilization</b> = (ΣBurst ÷ Makespan) × 100%</li>
-        <li><b>Throughput</b> = จำนวน process ÷ Makespan</li>
-    </ul>
-  </section>
+<section class="principle" id="principle">
+  <div class="section__container principle__container">
+  
+    <div class="principle__content">
+      <h2 class="section__header">
+        PRINCIPLE OF OPERATION
+      </h2>
+      <p class="section__description">
+        เริ่มจากเวลาศูนย์และรอให้มีโปรเซสมาถึง ถ้า CPU ว่าง จะเลือกโปรเซสที่มาล่าสุดในคิว เมื่อโปรเซสเริ่มทำงานแล้ว จะทำจนจบ (ไม่ถูกขัดจังหวะ) ทำซ้ำจนกว่าทุกโปรเซสจะเสร็จสิ้น
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="formula" id="formula">
+  <h2 class="section__header section__header--center">CALCULATION FORMULA</h2>
+  <ul class="formula__list">
+    <li class="formula__item"><b>Turnaround Time (TAT)</b> = Finish − Arrival</li>
+    <li class="formula__item"><b>Waiting Time (WT)</b> = TAT − Burst = Start − Arrival</li>
+    <li class="formula__item"><b>Response Time (RT)</b> = Start − Arrival</li>
+    <li class="formula__item"><b>Avg TAT</b> = ΣTAT ÷ n</li>
+    <li class="formula__item"><b>Avg WT</b> = ΣWT ÷ n</li>
+    <li class="formula__item"><b>Avg RT</b> = ΣRT ÷ n</li>
+    <li class="formula__item"><b>CPU Utilization</b> = (ΣBurst ÷ Makespan) × 100%</li>
+    <li class="formula__item"><b>Throughput</b> = จำนวน process ÷ Makespan</li>
+  </ul>
+</section>
+
 
 
   <section id="csv-uploader">
@@ -113,10 +152,7 @@ P3: Arrival=2, Burst=1
     </div>
   </section>
 
-  <section id="member">
-    <h2>MEMBER</h2>
-    <p>ทีม: ...</p>
-  </section>
+
 
    
 
