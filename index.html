@@ -30,13 +30,14 @@
           <li><a href="#simulation">SIMULATION</a></li>
           <li><a href="#csv-uploader">CSV UPLOADER</a></li>
           <li><a href="#results">RESULTS TABLE</a></li>
+          <li><a href="#member">MEMBER</a></li>
         </ul>
         <div class="nav__btns">
           <button class="btn"><i class="ri-search-line"></i></button>
         </div>
       </nav>
 
-      <div class="section__container header__container">
+  <div id="home" class="section__container header__container">
         <h1>NON-PREEMPTIVE SCHEDULING</h1>
         <p class="section__description">
           Once a process gets the CPU, it runs until completion — no interruption.
@@ -52,7 +53,7 @@
     </header>
 
 
-    <section>
+    <section id="simulation">
       <h2>MEANING OF NON-PREEMPTIVE LCFS</h2>
         <p>
           <b>Non-preemptive LCFS (Last-Come-First-Serve)</b> คือวิธีจัดตารางเวลาการทำงานของ CPU โดยเลือก <b>โปรเซสที่มาล่าสุด (arrival time มากที่สุด)</b>
@@ -61,7 +62,7 @@
     </section>
 
       <section>
-    <h2>⚙️ หลักการทำงาน</h2>
+    <h2> หลักการทำงาน</h2>
     <ol>
       <li>เริ่มจากเวลาศูนย์และรอให้มีโปรเซสมาถึง</li>
       <li>ถ้า CPU ว่าง จะเลือกโปรเซสที่มาล่าสุดในคิว</li>
@@ -73,7 +74,7 @@
 
 
     <section>
-    <h2>🧮 สูตรการคำนวณ</h2>
+    <h2> สูตรการคำนวณ</h2>
     <ul>
         <li><b>Turnaround Time (TAT)</b> = Finish − Arrival</li>
         <li><b>Waiting Time (WT)</b> = TAT − Burst = Start − Arrival</li>
@@ -87,15 +88,15 @@
   </section>
 
 
-  <section>
-    <h2>📂 อัปโหลดไฟล์เพื่อคำนวณ</h2>
+  <section id="csv-uploader">
+    <h2> อัปโหลดไฟล์เพื่อคำนวณ</h2>
     <p>รองรับไฟล์ <b>.csv</b> และ <b>.xlsx</b> โดยต้องมีคอลัมน์: <b>Process, Arrival, Burst</b> (จะเรียงลำดับต่างกันก็ได้)</p>
     <input type="file" id="fileInput" class="upload" />
     <div id="output"></div>
   </section>
 
-  <section>
-    <h2>🔎 ตัวอย่างการทำงาน</h2>
+  <section id="results">
+    <h2> ตัวอย่างการทำงาน</h2>
     <p>เช่น โปรเซส 3 ตัว</p>
     <pre>
 P1: Arrival=0, Burst=4
@@ -110,6 +111,11 @@ P3: Arrival=2, Burst=1
       CPU Utilization = 100%<br>
       Throughput = 0.375 process/unit time
     </div>
+  </section>
+
+  <section id="member">
+    <h2>MEMBER</h2>
+    <p>ทีม: ...</p>
   </section>
 
    

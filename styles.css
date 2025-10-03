@@ -47,7 +47,7 @@ body {
   background-color: var(--background-color);
 }
 
-/* Reserve space for the fixed nav and make in-page anchors land below it */
+
 html { scroll-padding-top: var(--nav-height); }
 body { padding-top: var(--nav-height); }
 
@@ -180,7 +180,7 @@ body > section:not(.csv-uploader) pre {
   font-family: monospace;
 }
 
-/* Specific tweaks for informational LCFS sections (principles, examples) */
+
 body > section:not(.csv-uploader).info, body > section:not(.csv-uploader) {
   position: relative;
   padding: 1.25rem 1.5rem;
@@ -198,7 +198,7 @@ body > section:not(.csv-uploader) h2 {
   gap: 0.5rem;
 }
 
-/* Decorative left accent bar */
+
 body > section:not(.csv-uploader)::before {
   content: "";
   position: absolute;
@@ -227,13 +227,13 @@ body > section:not(.csv-uploader) p {
   color: var(--text-light);
 }
 
-/* Ensure bold text remains highly legible */
+
 body > section:not(.csv-uploader) b,
 body > section:not(.csv-uploader) strong {
   color: var(--white);
 }
 
-/* Formula / unordered list styles for the info panels */
+
 body > section:not(.csv-uploader) ul {
   margin: 0.75rem 0 0.25rem 0;
   padding-left: 1.25rem;
@@ -248,14 +248,14 @@ body > section:not(.csv-uploader) ul li {
   align-items: baseline;
 }
 
-/* make the labels (the bold parts) stand out */
+
 body > section:not(.csv-uploader) ul li b {
   color: var(--white);
-  min-width: 10.5rem; /* keep formulas aligned visually */
+  min-width: 10.5rem; 
   display: inline-block;
 }
 
-/* colored list markers */
+
 body > section:not(.csv-uploader) ul li::marker {
   color: var(--primary-color);
 }
@@ -270,7 +270,7 @@ body > section:not(.csv-uploader) ul li::marker {
   margin-top: 0.75rem;
 }
 
-/* Polishing for example blocks and metric cards */
+
 section .result-box {
   background: linear-gradient(180deg, rgba(0,0,0,0.32), rgba(255,255,255,0.02));
   border-radius: 0.6rem;
@@ -288,11 +288,11 @@ section pre {
   overflow: auto;
 }
 
-/* tighten spacing between example text and metrics */
+
 section p + pre { margin-top: 0.5rem; }
 section pre + p { margin-top: 0.5rem; }
 
-/* slightly larger contrast for the example heading */
+
 section h2 { text-shadow: 0 1px 0 rgba(0,0,0,0.4); }
 
 
@@ -541,7 +541,7 @@ input.upload:hover {
   color: var(--white);
 }
 
-/* Table styling for results inside #output */
+
 #output table {
   width: 100%;
   border-collapse: collapse;
@@ -569,16 +569,16 @@ input.upload:hover {
   background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
 }
 
-/* horizontal scroll on very small screens */
+
 #output .table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* make numbers monospaced and aligned */
+
 #output td:nth-child(n+2) { text-align: right; font-variant-numeric: tabular-nums; }
 
-/* small heading inside output */
+
 #output h3 { margin: 0; color: var(--primary-color); font-family: var(--header-font); }
 
 
