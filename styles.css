@@ -872,3 +872,78 @@ section pre {
 .choose__card img {
   max-width: 500px;
 }
+
+
+
+/* ===== Gantt Chart ===== */
+#gantt-wrap { margin-top: 1rem; }
+#gantt-title { margin: 0.5rem 0; color: var(--white); font-family: var(--header-font); }
+
+.gantt {
+  position: relative;
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 56px; /* ความสูงแถบกราฟ */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.gantt-row {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+
+.gantt-seg {
+  position: relative;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  padding: 0 6px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.gantt-seg.proc {
+  background: linear-gradient(180deg, #fcf4b3, var(--primary-color)); /* สีแถบงาน */
+  color: #fff;
+  font-weight: 600;
+}
+
+.gantt-seg.idle {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.08) 0 6px,
+    rgba(255,255,255,0.02) 6px 12px
+  );
+  color: var(--text-light);
+}
+
+.gantt-axis {
+  position: relative;
+  margin-top: 0.5rem;
+  height: 26px;
+}
+
+.gantt-axis .tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.gantt-axis .tick::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 8px;
+  background: var(--surface-border);
+}

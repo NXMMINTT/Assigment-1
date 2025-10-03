@@ -191,23 +191,141 @@ document.getElementById("fileInput").addEventListener("change", handleFile, fals
       let cpuUtil = (makespan > 0) ? (totalBurst/makespan*100).toFixed(2) : 0.00;
       let throughput = (makespan > 0) ? (completed.length/makespan).toFixed(3) : 0.000;
 
-      // การสร้างตารางผลลัพธ์
-      let html = "<h3>📊 ผลลัพธ์</h3><table><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Start</th><th>Finish</th><th>TAT</th><th>WT</th><th>RT</th></tr>";
-      // เรียงตามเวลาเริ่มต้นเพื่อแสดง Gantt Chart แบบตาราง
-      completed.sort((a,b)=>a.start-b.start).forEach(p=>{
-        html += `<tr><td>${p.name}</td><td>${p.arrival}</td><td>${p.burst}</td><td>${p.start}</td><td>${p.finish}</td><td>${p.tat}</td><td>${p.wait}</td><td>${p.rt}</td></tr>`;
-      });
-      html += "</table>";
+// การสร้างตารางผลลัพธ์
+let html = "<h3>📊 ผลลัพธ์</h3><table><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Start</th><th>Finish</th><th>TAT</th><th>WT</th><th>RT</th></tr>";
+// เรียงตามเวลาเริ่มต้นเพื่อแสดงลำดับการทำงาน
+completed.sort((a,b)=>a.start-b.start).forEach(p=>{
+  html += `<tr><td>${p.name}</td><td>${p.arrival}</td><td>${p.burst}</td><td>${p.start}</td><td>${p.finish}</td><td>${p.tat}</td><td>${p.wait}</td><td>${p.rt}</td></tr>`;
+});
+html += "</table>";
 
-      // การแสดงค่าเฉลี่ย
-      html += `<div class='result-box'>
-        Avg TAT = ${avgTAT.toFixed(2)}<br>
-        Avg WT = ${avgWT.toFixed(2)}<br>
-        Avg RT = ${avgRT.toFixed(2)}<br>
-        CPU Utilization = ${cpuUtil}%<br>
-        Throughput = ${throughput} process/unit time
-      </div>`;
+// การแสดงค่าเฉลี่ย
+html += `<div class='result-box'>
+  Avg TAT = ${avgTAT.toFixed(2)}<br>
+  Avg WT = ${avgWT.toFixed(2)}<br>
+  Avg RT = ${avgRT.toFixed(2)}<br>
+  CPU Utilization = ${cpuUtil}%<br>
+  Throughput = ${throughput} process/unit time
+</div>`;
 
-      document.getElementById("output").innerHTML = html;
+// พื้นที่ Gantt
+html += `
+  <div id="gantt-wrap">
+    <h3 id="gantt-title">🧱 Gantt Chart</h3>
+    <div id="gantt" class="gantt"><div class="gantt-row" id="gantt-row"></div></div>
+    <div id="gantt-axis" class="gantt-axis"></div>
+  </div>
+`;
+
+document.getElementById("output").innerHTML = html;
+
+// เรนเดอร์ Gantt และแกนเวลา
+renderGantt(completed, makespan);
+renderAxis(makespan);
+
     }
 // ------------------------ End of File Upload Handling -------------------------
+
+/** ================== Helpers: Gantt Renderer ================== */
+/**
+ * สร้าง segments รวมช่วง Idle ด้วย
+ * ใช้สัดส่วนความกว้างเป็น % ของ makespan เพื่อความ responsive
+ */
+function renderGantt(tasks, makespan) {
+  const row = document.getElementById("gantt-row");
+  if (!row || makespan <= 0) return;
+
+  // สร้างลิสต์ segments (รวม idle)
+  const segments = [];
+  let cursor = 0;
+
+  // เผื่อมีการเรียงไม่แน่ ให้เรียงตามเวลาเริ่ม
+  const items = [...tasks].sort((a,b)=>a.start - b.start);
+
+  items.forEach((p, i) => {
+    // Idle ก่อนโปรเซสแรก/ก่อนโปรเซสถัดไป
+    if (p.start > cursor) {
+      segments.push({
+        type: "idle",
+        label: `Idle ${cursor}→${p.start}`,
+        start: cursor,
+        end: p.start
+      });
+    }
+    // ตัวโปรเซส
+    segments.push({
+      type: "proc",
+      label: `${p.name} ${p.start}→${p.finish}`,
+      start: p.start,
+      end: p.finish
+    });
+    cursor = p.finish;
+  });
+
+  // Idle ท้าย (ถ้ามี; ปกติ makespan = last finish จึงมักไม่เกิด)
+  if (cursor < makespan) {
+    segments.push({
+      type: "idle",
+      label: `Idle ${cursor}→${makespan}`,
+      start: cursor,
+      end: makespan
+    });
+  }
+
+  // วาด DOM
+  row.innerHTML = "";
+  segments.forEach(seg => {
+    const dur = seg.end - seg.start;
+    if (dur <= 0) return;
+
+    const widthPct = (dur / makespan) * 100;
+    const div = document.createElement("div");
+    div.className = `gantt-seg ${seg.type}`;
+    div.style.width = widthPct + "%";
+    div.title = seg.label; // tooltip
+
+    // แสดงชื่อย่อบนแท่ง (ย่อลงถ้าสั้น)
+    div.textContent = seg.type === "proc" ? seg.label.split(" ")[0] : "Idle";
+    row.appendChild(div);
+  });
+}
+
+/**
+ * วาดแกนเวลาพร้อม tick แบบอัตโนมัติ (ไม่รกเกินไป)
+ */
+function renderAxis(makespan) {
+  const axis = document.getElementById("gantt-axis");
+  const gantt = document.getElementById("gantt");
+  if (!axis || !gantt || makespan <= 0) return;
+
+  axis.innerHTML = "";
+
+  // กำหนดจำนวน tick โดยประมาณ 6–12 จุด แล้วหารช่องว่างให้ลงตัว
+  const approxTicks = Math.min(12, Math.max(6, Math.floor(gantt.clientWidth / 80)));
+  const stepRaw = makespan / approxTicks;
+
+  // ปรับ step เป็นตัวเลข "สวยๆ" (1,2,5,10,20,...)
+  const pow10 = Math.pow(10, Math.floor(Math.log10(stepRaw)));
+  const candidates = [1, 2, 5, 10];
+  let step = pow10;
+  for (let c of candidates) {
+    const s = c * pow10;
+    if (s >= stepRaw) { step = s; break; }
+  }
+
+  for (let t = 0; t <= makespan + 1e-9; t += step) {
+    const pct = (t / makespan) * 100;
+    const tick = document.createElement("div");
+    tick.className = "tick";
+    tick.style.left = pct + "%";
+    tick.textContent = Math.round(t);
+    axis.appendChild(tick);
+  }
+
+  // บังคับโชว์จุดสุดท้าย (makespan) ให้เป๊ะ
+  const endTick = document.createElement("div");
+  endTick.className = "tick";
+  endTick.style.left = "100%";
+  endTick.textContent = Math.round(makespan);
+  axis.appendChild(endTick);
+}
